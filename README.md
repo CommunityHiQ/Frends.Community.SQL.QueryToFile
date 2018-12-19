@@ -1,5 +1,5 @@
-# Frends.Community.Email
-Frends task for sending emails. Task sends emails via SMTP protocol and can handle attachments either from file or as raw string input.
+# Frends.Community.QueryToFile
+Frends task for writing SQL query results to CSV file.
 
 - [Installing](#installing)
 - [Tasks](#tasks)
@@ -43,6 +43,9 @@ Settings for included attachments
 | DateFormat | string | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | yyyy-MM-dd |
 | DateTimeFormat | string | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | yyyy-MM-dd HH:mm:ss |
 
+### Notes
+Newlines in text fields are replaced with spaces.
+
 ### Result
 Result contains the amount of lines written to output CSV.
 
@@ -58,7 +61,7 @@ Clone a copy of the repo
 
 Restore dependencies
 
-`nuget restore frends.community.email`
+`nuget restore`
 
 Rebuild the project
 
