@@ -7,7 +7,7 @@ using System.IO;
 namespace Frends.Community.QueryToFile.Tests
 {
     [TestClass]
-    public class QueryToFileTest
+    public class QueryToFileTaskTest
     {
         [TestMethod]
         public void DataReaderToCsvTest_AllColumns()
@@ -33,10 +33,10 @@ namespace Frends.Community.QueryToFile.Tests
             };
 
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFile.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                var entries = QueryToFile.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                var entries = QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
                 var resultLines = result.Split("\r\n", StringSplitOptions.None);
@@ -59,10 +59,10 @@ namespace Frends.Community.QueryToFile.Tests
 
             var options = new SaveQueryToCSVOptions { IncludeHeadersInOutput = false };
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFile.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                QueryToFile.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
                 var resultLines = result.Split("\r\n", StringSplitOptions.None);
@@ -82,10 +82,10 @@ namespace Frends.Community.QueryToFile.Tests
 
             var options = new SaveQueryToCSVOptions { SanitizeColumnHeaders = true };
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFile.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                QueryToFile.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
                 var resultLines = result.Split("\r\n", StringSplitOptions.None);
@@ -119,10 +119,10 @@ namespace Frends.Community.QueryToFile.Tests
             };
 
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFile.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                QueryToFile.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
                 var resultLines = result.Split("\r\n", StringSplitOptions.None);
@@ -169,11 +169,11 @@ namespace Frends.Community.QueryToFile.Tests
             };
 
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFile.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
                 var sw = Stopwatch.StartNew();
-                QueryToFile.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 sw.Stop();
                 Console.WriteLine("Elapsed={0}", sw.Elapsed);
@@ -197,23 +197,23 @@ namespace Frends.Community.QueryToFile.Tests
             // Basic case
             Assert.AreEqual(
                 "\"hello, world\"",
-                QueryToFile.FormatDbValue("hello, world", null, typeof(string), options));
+                QueryToFileTask.FormatDbValue("hello, world", null, typeof(string), options));
 
             // Quotes should be escaped
             Assert.AreEqual(
                 "\"hello\\\" world\"",
-                QueryToFile.FormatDbValue("hello\" world", null, typeof(string), options));
+                QueryToFileTask.FormatDbValue("hello\" world", null, typeof(string), options));
 
             // Newlines should be replaced by spaces
             Assert.AreEqual(
                 "\"hello world\"",
-                QueryToFile.FormatDbValue("hello\rworld", null, typeof(string), options));
+                QueryToFileTask.FormatDbValue("hello\rworld", null, typeof(string), options));
             Assert.AreEqual(
                 "\"hello world\"",
-                QueryToFile.FormatDbValue("hello\r\nworld", null, typeof(string), options));
+                QueryToFileTask.FormatDbValue("hello\r\nworld", null, typeof(string), options));
             Assert.AreEqual(
                 "\"hello world\"",
-                QueryToFile.FormatDbValue("hello\nworld", null, typeof(string), options));
+                QueryToFileTask.FormatDbValue("hello\nworld", null, typeof(string), options));
         }
 
         [TestMethod]
@@ -230,24 +230,24 @@ namespace Frends.Community.QueryToFile.Tests
             // Date
             Assert.AreEqual(
                 "31-12_2018",
-                QueryToFile.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
+                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
 
             // Datetime
             Assert.AreEqual(
                 "31-12_2018 11:22:33",
-                QueryToFile.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
+                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
 
             options.AddQuotesToDates = true;
 
             // Date
             Assert.AreEqual(
                 "\"31-12_2018\"",
-                QueryToFile.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
+                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
 
             // Datetime
             Assert.AreEqual(
                 "\"31-12_2018 11:22:33\"",
-                QueryToFile.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
+                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
         }
 
         [TestMethod]
@@ -257,19 +257,19 @@ namespace Frends.Community.QueryToFile.Tests
 
             Assert.AreEqual(
                 "",
-                QueryToFile.FormatDbValue(null, "DOUBLE", typeof(double), options));
+                QueryToFileTask.FormatDbValue(null, "DOUBLE", typeof(double), options));
 
             // All string and date/datetime types should be quoted, including nulls
             Assert.AreEqual(
                 "\"\"",
-                QueryToFile.FormatDbValue(DBNull.Value, "DATE", typeof(DateTime), options));
+                QueryToFileTask.FormatDbValue(DBNull.Value, "DATE", typeof(DateTime), options));
 
             Assert.AreEqual(
                 "\"\"",
-                QueryToFile.FormatDbValue(DBNull.Value, "DATETIME", typeof(DateTime), options));
+                QueryToFileTask.FormatDbValue(DBNull.Value, "DATETIME", typeof(DateTime), options));
             Assert.AreEqual(
                 "\"\"",
-                QueryToFile.FormatDbValue(DBNull.Value, "NVARCHAR", typeof(string), options));
+                QueryToFileTask.FormatDbValue(DBNull.Value, "NVARCHAR", typeof(string), options));
         }
 
         [TestMethod]
@@ -279,15 +279,15 @@ namespace Frends.Community.QueryToFile.Tests
             // Float
             Assert.AreEqual(
                 "1234.543",
-                QueryToFile.FormatDbValue((float)1234.543, "FLOAT", typeof(float), options));
+                QueryToFileTask.FormatDbValue((float)1234.543, "FLOAT", typeof(float), options));
             // Double
             Assert.AreEqual(
                 "1234.543",
-                QueryToFile.FormatDbValue((double)1234.543, "DOUBLE", typeof(double), options));
+                QueryToFileTask.FormatDbValue((double)1234.543, "DOUBLE", typeof(double), options));
             // Float
             Assert.AreEqual(
                 "1234.543",
-                QueryToFile.FormatDbValue((decimal)1234.543, "DECIMAL", typeof(decimal), options));
+                QueryToFileTask.FormatDbValue((decimal)1234.543, "DECIMAL", typeof(decimal), options));
         }
 
         [TestMethod]
@@ -296,11 +296,11 @@ namespace Frends.Community.QueryToFile.Tests
             // Basic case
             Assert.AreEqual(
                 "123_hello!!! THIS IS MADNESS",
-                QueryToFile.FormatDbHeader("123_hello!!! THIS IS MADNESS", false));
+                QueryToFileTask.FormatDbHeader("123_hello!!! THIS IS MADNESS", false));
             // Sanitize it!
             Assert.AreEqual(
                 "hellothisis5anitiz3d_madness",
-                QueryToFile.FormatDbHeader("123_hello!!! THIS IS 5aNiTiZ3D_MADNESS", true));
+                QueryToFileTask.FormatDbHeader("123_hello!!! THIS IS 5aNiTiZ3D_MADNESS", true));
         }
     }
 }

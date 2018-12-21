@@ -48,14 +48,17 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="QueryToFile.cs" />
+    <Compile Include="Lib\CsvFieldDelimiter.cs" />
+    <Compile Include="Lib\CsvLineBreak.cs" />
+    <Compile Include="QueryToFileTask.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <Compile Include="Lib\SaveQueryToCSVOptions.cs" />
+    <Compile Include="Lib\SaveQueryToCSVParameters.cs" />
+    <Compile Include="Lib\SQLParameter.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="Frends.Community.QueryToFile.nuspec">
-      <SubType>Designer</SubType>
-    </None>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup />
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
