@@ -4,7 +4,7 @@ using System.Data;
 using System.Diagnostics;
 using System.IO;
 
-namespace Frends.Community.QueryToFile.Tests
+namespace Frends.Community.SQL.QueryToFile.Tests
 {
     [TestClass]
     public class QueryToFileTaskTest

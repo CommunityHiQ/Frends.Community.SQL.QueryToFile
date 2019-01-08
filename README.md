@@ -1,4 +1,4 @@
-# Frends.Community.QueryToFile
+# Frends.Community.SQL.QueryToFile
 Frends task for writing SQL query results to CSV file.
 
 - [Installing](#installing)
@@ -57,7 +57,7 @@ This project is licensed under the MIT License - see the LICENSE file for detail
 
 Clone a copy of the repo
 
-`git clone https://github.com/CommunityHiQ/Frends.Community.QueryToFile.git`
+`git clone https://github.com/CommunityHiQ/Frends.Community.SQL.QueryToFile.git`
 
 Restore dependencies
 
@@ -67,11 +67,11 @@ Rebuild the project
 
 Run Tests with MSTest. Tests can be found under
 
-`Frends.Community.QueryToFile.Tests\bin\Release\Frends.Community.QueryToFile.dll`
+`Frends.Community.SQL.QueryToFile.Tests\bin\Release\Frends.Community.SQL.QueryToFile.dll`
 
 Create a nuget package
 
-`nuget pack Frends.Community.QueryToFile.nuspec`
+`nuget pack Frends.Community.SQL.QueryToFile.nuspec`
 
 # Contributing
 When contributing to this repository, please first discuss the change you wish to make via issue, email, or any other method with the owners of this repository before making a change.

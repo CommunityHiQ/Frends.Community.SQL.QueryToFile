@@ -1,4 +1,4 @@
-﻿namespace Frends.Community.QueryToFile
+﻿namespace Frends.Community.SQL.QueryToFile
 {
     /// <summary>
     /// CSV line break options

@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel;
 
-namespace Frends.Community.QueryToFile
+namespace Frends.Community.SQL.QueryToFile
 {
     public class SaveQueryToCSVParameters
     {

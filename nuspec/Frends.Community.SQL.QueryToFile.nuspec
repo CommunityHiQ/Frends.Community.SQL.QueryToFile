@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="utf-8"?>
 <package xmlns="http://schemas.microsoft.com/packaging/2011/10/nuspec.xsd">
   <metadata>
-  <id>Frends.Community.QueryToFile</id>
+  <id>Frends.Community.SQL.QueryToFile</id>
   <version>1.0.9</version>
   <title>Frends QueryToFile</title>
   <authors>HiQ Finland</authors>
@@ -19,9 +19,7 @@
   </frameworkAssemblies>
     </metadata>
   <files>
-    <file src="..\Frends.Community.QueryToFile\bin\Release\Frends.Community.QueryToFile.dll" target="lib\net452\Frends.Community.QueryToFile.dll" />
-    <file src="..\Frends.Community.QueryToFile\bin\Release\CsvHelper.dll" target="lib\net452\CsvHelper.dll" />
-    <file src="..\Frends.Community.QueryToFile\bin\Release\System.ValueTuple.dll" target="lib\net452\System.ValueTuple.dll" />
-    <file src="..\Frends.Community.QueryToFile\bin\Release\Frends.Community.QueryToFile.xml" target="lib\net452\Frends.Community.QueryToFile.xml" />
+    <file src="..\Frends.Community.SQL.QueryToFile\bin\Release\Frends.Community.SQL.QueryToFile.dll" target="lib\net452\Frends.Community.SQL.QueryToFile.dll" />
+    <file src="..\Frends.Community.SQL.QueryToFile\bin\Release\Frends.Community.SQL.QueryToFile.xml" target="lib\net452\Frends.Community.SQL.QueryToFile.xml" />
   </files>
 </package>

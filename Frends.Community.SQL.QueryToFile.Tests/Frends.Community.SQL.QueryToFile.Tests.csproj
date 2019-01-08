@@ -14,7 +14,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\Frends.Community.QueryToFile\Frends.Community.QueryToFile.csproj" />
+    <ProjectReference Include="..\Frends.Community.SQL.QueryToFile\Frends.Community.SQL.QueryToFile.csproj" />
   </ItemGroup>
 
 </Project>
