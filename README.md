@@ -22,10 +22,11 @@ Tasks
 
 | Property             | Type                 | Description                          | Example |
 | ---------------------| ---------------------| ------------------------------------ | ----- |
-| Query | string | SQL query to execute | SELECT id FROM foo |
-| ConnectionString | string | Database connection string | Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword |
+| Query | string | SQL query to execute | `SELECT id FROM foo` |
+| ConnectionString | string | Database connection string | `Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword` |
 | TimeoutSeconds | int | Timeout in seconds | 30 |
-| OutputFilePath | string | CSV file path for output | C:\output\path.csv |
+| OutputFilePath | string | CSV file path for output | `C:\output\path.csv` |
+| QueryParameters | SQLParameter[] | Query parameters | `[ { "@Param1", "Value1" }, { "@Param2", "Value2" }]`
 
 
 ### Options
@@ -34,14 +35,14 @@ Settings for included attachments
 
 | Property             | Type                 | Description                          | Example |
 | ---------------------| ---------------------| ------------------------------------ | ----- |
-| ColumnsToInclude | string[] | Columns to include in the output CSV. If no columns defined here then all columns will be written to output CSV. | [id, name, value] |
+| ColumnsToInclude | string[] | Columns to include in the output CSV. If no columns defined here then all columns will be written to output CSV. | `[id, name, value]` |
 | FieldDelimiter | enum { Comma, Semicolon, Pipe } | Field delimeter to use in output CSV | Comma |
 | LineBreak | enum { CR, LF, CRLF } | Line break style to use in output CSV. | CRLF |
-| IncludeHeadersInOutput | bool | Wherther to include headers in output CSV. | true |
-| SanitizeColumnHeaders | bool | Whether to sanitize headers in output: (1) Strip any chars that are not 0-9, a-z or _ (2) Make sure that column does not start with a number or underscore (3) Force lower case | true |
-| AddQuotesToDates | bool | Whether to add quotes around DATE and DATETIME fields | true |
-| DateFormat | string | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | yyyy-MM-dd |
-| DateTimeFormat | string | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | yyyy-MM-dd HH:mm:ss |
+| IncludeHeadersInOutput | bool | Wherther to include headers in output CSV. | `true` |
+| SanitizeColumnHeaders | bool | Whether to sanitize headers in output: (1) Strip any chars that are not 0-9, a-z or _ (2) Make sure that column does not start with a number or underscore (3) Force lower case | `true` |
+| AddQuotesToDates | bool | Whether to add quotes around DATE and DATETIME fields | `true` |
+| DateFormat | string | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd` |
+| DateTimeFormat | string | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd HH:mm:ss` |
 
 ### Notes
 Newlines in text fields are replaced with spaces.
