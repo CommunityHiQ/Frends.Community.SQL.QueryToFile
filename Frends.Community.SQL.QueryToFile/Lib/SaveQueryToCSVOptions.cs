@@ -1,10 +1,15 @@
 ﻿using System;
 using System.ComponentModel;
+using System.ComponentModel.DataAnnotations;
 
 namespace Frends.Community.SQL.QueryToFile
 {
+    public enum FileEncoding { UTF8, ANSI, ASCII, Unicode, Other }
+
     public class SaveQueryToCSVOptions
     {
+        
+
         /// <summary>
         /// Columns to include in the CSV output. Leave empty to include all columns in output.
         /// </summary>
@@ -21,6 +26,21 @@ namespace Frends.Community.SQL.QueryToFile
         /// </summary>
         [DefaultValue(CsvLineBreak.CRLF)]
         public CsvLineBreak LineBreak { get; set; } = CsvLineBreak.CRLF;
+
+        /// <summary>
+        /// Output file encoding
+        /// </summary>
+        [DefaultValue(FileEncoding.UTF8)]
+        public FileEncoding FileEncoding { get; set; }
+
+        [UIHint(nameof(FileEncoding), "", FileEncoding.UTF8)]
+        public bool EnableBom { get; set; }
+
+        /// <summary>
+        /// File encoding to be used. A partial list of possible encodings: https://en.wikipedia.org/wiki/Windows_code_page#List
+        /// </summary>
+        [UIHint(nameof(FileEncoding), "", FileEncoding.Other)]
+        public string EncodingInString { get; set; }
 
         /// <summary>
         /// Whether to include headers in output

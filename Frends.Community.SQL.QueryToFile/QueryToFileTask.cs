@@ -28,7 +28,9 @@ namespace Frends.Community.SQL.QueryToFile
         public async static Task<int> SaveQueryToCSV([PropertyTab] SaveQueryToCSVParameters parameters, [PropertyTab] SaveQueryToCSVOptions options, CancellationToken cancellationToken)
         {
             int output = 0;
-            using (var writer = new StreamWriter(parameters.OutputFilePath))
+            var encoding = GetEncoding(options.FileEncoding, options.EnableBom, options.EncodingInString);
+
+            using (var writer = new StreamWriter(parameters.OutputFilePath, false, encoding))
             using (var csvFile = CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var sqlConnection = new SqlConnection(parameters.ConnectionString))
             {
@@ -199,6 +201,25 @@ namespace Frends.Community.SQL.QueryToFile
                 }
 
                 return command;
+            }
+        }
+
+        private static Encoding GetEncoding(FileEncoding optionsFileEncoding, bool optionsEnableBom, string optionsEncodingInString)
+        {
+            switch (optionsFileEncoding)
+            {
+                case FileEncoding.Other:
+                    return Encoding.GetEncoding(optionsEncodingInString);
+                case FileEncoding.ASCII:
+                    return Encoding.ASCII;
+                case FileEncoding.ANSI:
+                    return Encoding.Default;
+                case FileEncoding.UTF8:
+                    return optionsEnableBom ? new UTF8Encoding(true) : new UTF8Encoding(false);
+                case FileEncoding.Unicode:
+                    return Encoding.Unicode;
+                default:
+                    throw new ArgumentOutOfRangeException();
             }
         }
     }
