@@ -38,6 +38,8 @@ Settings for included attachments
 | ColumnsToInclude | string[] | Columns to include in the output CSV. If no columns defined here then all columns will be written to output CSV. | `[id, name, value]` |
 | FieldDelimiter | enum { Comma, Semicolon, Pipe } | Field delimeter to use in output CSV | Comma |
 | LineBreak | enum { CR, LF, CRLF } | Line break style to use in output CSV. | CRLF |
+| FileEncoding | enum | Encoding for the read content. By selecting 'Other' you can use any encoding. |
+| EncodingInString | string | The name of encoding to use. Required if the FileEncoding choice is 'Other'. A partial list of supported encoding names: https://msdn.microsoft.com/en-us/library/system.text.encoding.getencodings(v=vs.110).aspx | `iso-8859-1` |
 | IncludeHeadersInOutput | bool | Wherther to include headers in output CSV. | `true` |
 | SanitizeColumnHeaders | bool | Whether to sanitize headers in output: (1) Strip any chars that are not 0-9, a-z or _ (2) Make sure that column does not start with a number or underscore (3) Force lower case | `true` |
 | AddQuotesToDates | bool | Whether to add quotes around DATE and DATETIME fields | `true` |
@@ -90,3 +92,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | Version             | Changes                 |
 | ---------------------| ---------------------|
 | 1.0.0 | Initial version of SaveQueryToCSV task |
+| 1.1.0 | Added options for destination file encoding. |
