@@ -92,4 +92,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | Version             | Changes                 |
 | ---------------------| ---------------------|
 | 1.0.0 | Initial version of SaveQueryToCSV task |
-| 1.0.10 | Added options for destination file encoding. |
+| 1.1.0 | Added options for destination file encoding. |
