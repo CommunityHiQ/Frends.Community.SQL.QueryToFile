@@ -7,7 +7,7 @@ using System.IO;
 namespace Frends.Community.SQL.QueryToFile.Tests
 {
     [TestClass]
-    public class QueryToFileTaskTest
+    public class SQLTest
     {
         [TestMethod]
         public void DataReaderToCsvTest_AllColumns()
@@ -33,13 +33,13 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             };
 
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = SQL.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                var entries = QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                var entries = SQL.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
-                var resultLines = result.Split("\r\n", StringSplitOptions.None);
+                var resultLines = result.Split(new String[] { "\r\n" } , StringSplitOptions.None);
 
                 // 4 lines = 1 header line + 2 data lines + 1 newline at end of file
                 Assert.AreEqual(4, resultLines.Length);
@@ -59,13 +59,13 @@ namespace Frends.Community.SQL.QueryToFile.Tests
 
             var options = new SaveQueryToCSVOptions { IncludeHeadersInOutput = false };
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = SQL.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                SQL.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
-                var resultLines = result.Split("\r\n", StringSplitOptions.None);
+                var resultLines = result.Split(new String[] { "\r\n" }, StringSplitOptions.None);
 
                 // 2 lines = 0 header lines + 1 data lines + 1 newline at end of file
                 Assert.AreEqual(2, resultLines.Length);
@@ -82,13 +82,13 @@ namespace Frends.Community.SQL.QueryToFile.Tests
 
             var options = new SaveQueryToCSVOptions { SanitizeColumnHeaders = true };
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = SQL.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                SQL.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
-                var resultLines = result.Split("\r\n", StringSplitOptions.None);
+                var resultLines = result.Split(new String[] { "\r\n" }, StringSplitOptions.None);
 
                 // 3 lines = 1 header lines + 1 data lines + 1 newline at end of file
                 Assert.AreEqual(3, resultLines.Length);
@@ -119,13 +119,13 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             };
 
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = SQL.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
-                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                SQL.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 var result = writer.ToString();
-                var resultLines = result.Split("\r\n", StringSplitOptions.None);
+                var resultLines = result.Split(new String[] { "\r\n" }, StringSplitOptions.None);
 
                 // 4 lines = 1 header line + 2 data lines + 1 newline at end of file
                 Assert.AreEqual(4, resultLines.Length);
@@ -169,16 +169,16 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             };
 
             using (var writer = new StringWriter())
-            using (var csvFile = QueryToFileTask.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
+            using (var csvFile = SQL.CreateCsvWriter(options.GetFieldDelimeterAsString(), writer))
             using (var reader = new DataTableReader(dt))
             {
                 var sw = Stopwatch.StartNew();
-                QueryToFileTask.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
+                SQL.DataReaderToCsv(reader, csvFile, options, new System.Threading.CancellationToken());
                 csvFile.Flush();
                 sw.Stop();
                 Console.WriteLine("Elapsed={0}", sw.Elapsed);
                 var result = writer.ToString();
-                var resultLines = result.Split("\r\n", StringSplitOptions.None);
+                var resultLines = result.Split(new String[] { "\r\n" }, StringSplitOptions.None);
 
                 // rowAmout + 1 header row + 1 newline at end
                 Assert.AreEqual(rowAmount + 2, resultLines.Length);
@@ -197,23 +197,23 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             // Basic case
             Assert.AreEqual(
                 "\"hello, world\"",
-                QueryToFileTask.FormatDbValue("hello, world", null, typeof(string), options));
+                SQL.FormatDbValue("hello, world", null, typeof(string), options));
 
             // Quotes should be escaped
             Assert.AreEqual(
                 "\"hello\\\" world\"",
-                QueryToFileTask.FormatDbValue("hello\" world", null, typeof(string), options));
+                SQL.FormatDbValue("hello\" world", null, typeof(string), options));
 
             // Newlines should be replaced by spaces
             Assert.AreEqual(
                 "\"hello world\"",
-                QueryToFileTask.FormatDbValue("hello\rworld", null, typeof(string), options));
+                SQL.FormatDbValue("hello\rworld", null, typeof(string), options));
             Assert.AreEqual(
                 "\"hello world\"",
-                QueryToFileTask.FormatDbValue("hello\r\nworld", null, typeof(string), options));
+                SQL.FormatDbValue("hello\r\nworld", null, typeof(string), options));
             Assert.AreEqual(
                 "\"hello world\"",
-                QueryToFileTask.FormatDbValue("hello\nworld", null, typeof(string), options));
+                SQL.FormatDbValue("hello\nworld", null, typeof(string), options));
         }
 
         [TestMethod]
@@ -230,24 +230,24 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             // Date
             Assert.AreEqual(
                 "31-12_2018",
-                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
+                SQL.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
 
             // Datetime
             Assert.AreEqual(
                 "31-12_2018 11:22:33",
-                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
+                SQL.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
 
             options.AddQuotesToDates = true;
 
             // Date
             Assert.AreEqual(
                 "\"31-12_2018\"",
-                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
+                SQL.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAte", typeof(DateTime), options));
 
             // Datetime
             Assert.AreEqual(
                 "\"31-12_2018 11:22:33\"",
-                QueryToFileTask.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
+                SQL.FormatDbValue(DateTime.Parse("2018-12-31T11:22:33"), "DAteTIME", typeof(DateTime), options));
         }
 
         [TestMethod]
@@ -257,19 +257,19 @@ namespace Frends.Community.SQL.QueryToFile.Tests
 
             Assert.AreEqual(
                 "",
-                QueryToFileTask.FormatDbValue(null, "DOUBLE", typeof(double), options));
+                SQL.FormatDbValue(null, "DOUBLE", typeof(double), options));
 
             // All string and date/datetime types should be quoted, including nulls
             Assert.AreEqual(
                 "\"\"",
-                QueryToFileTask.FormatDbValue(DBNull.Value, "DATE", typeof(DateTime), options));
+                SQL.FormatDbValue(DBNull.Value, "DATE", typeof(DateTime), options));
 
             Assert.AreEqual(
                 "\"\"",
-                QueryToFileTask.FormatDbValue(DBNull.Value, "DATETIME", typeof(DateTime), options));
+                SQL.FormatDbValue(DBNull.Value, "DATETIME", typeof(DateTime), options));
             Assert.AreEqual(
                 "\"\"",
-                QueryToFileTask.FormatDbValue(DBNull.Value, "NVARCHAR", typeof(string), options));
+                SQL.FormatDbValue(DBNull.Value, "NVARCHAR", typeof(string), options));
         }
 
         [TestMethod]
@@ -279,15 +279,15 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             // Float
             Assert.AreEqual(
                 "1234.543",
-                QueryToFileTask.FormatDbValue((float)1234.543, "FLOAT", typeof(float), options));
+                SQL.FormatDbValue((float)1234.543, "FLOAT", typeof(float), options));
             // Double
             Assert.AreEqual(
                 "1234.543",
-                QueryToFileTask.FormatDbValue((double)1234.543, "DOUBLE", typeof(double), options));
+                SQL.FormatDbValue((double)1234.543, "DOUBLE", typeof(double), options));
             // Float
             Assert.AreEqual(
                 "1234.543",
-                QueryToFileTask.FormatDbValue((decimal)1234.543, "DECIMAL", typeof(decimal), options));
+                SQL.FormatDbValue((decimal)1234.543, "DECIMAL", typeof(decimal), options));
         }
 
         [TestMethod]
@@ -296,11 +296,11 @@ namespace Frends.Community.SQL.QueryToFile.Tests
             // Basic case
             Assert.AreEqual(
                 "123_hello!!! THIS IS MADNESS",
-                QueryToFileTask.FormatDbHeader("123_hello!!! THIS IS MADNESS", false));
+                SQL.FormatDbHeader("123_hello!!! THIS IS MADNESS", false));
             // Sanitize it!
             Assert.AreEqual(
                 "hellothisis5anitiz3d_madness",
-                QueryToFileTask.FormatDbHeader("123_hello!!! THIS IS 5aNiTiZ3D_MADNESS", true));
+                SQL.FormatDbHeader("123_hello!!! THIS IS 5aNiTiZ3D_MADNESS", true));
         }
     }
 }

@@ -1,14 +1,49 @@
-﻿using System;
+﻿#pragma warning disable 1591
+
+using System;
 using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 
-namespace Frends.Community.SQL.QueryToFile
+namespace Frends.Community.SQL
 {
     public enum FileEncoding { UTF8, ANSI, ASCII, Unicode, Other }
+       
+    /// <summary>
+    /// CSV line break options
+    /// </summary>
+    public enum CsvLineBreak
+    {
+        CRLF,
+        LF,
+        CR
+    }
+
+    /// <summary>
+    /// CSV field delimeter options
+    /// </summary>
+    public enum CsvFieldDelimiter
+    {
+        Comma,
+        Semicolon,
+        Pipe
+    }
+
+    public class SQLParameter
+    {
+        /// <summary>
+        /// Parameter name
+        /// </summary>
+        public string Name { get; set; }
+
+        /// <summary>
+        /// Parameter value
+        /// </summary>
+        public string Value { get; set; }
+    }
 
     public class SaveQueryToCSVOptions
     {
-        
+
 
         /// <summary>
         /// Columns to include in the CSV output. Leave empty to include all columns in output.
@@ -79,7 +114,7 @@ namespace Frends.Community.SQL.QueryToFile
 
         public string GetFieldDelimeterAsString()
         {
-            switch(this.FieldDelimiter)
+            switch (this.FieldDelimiter)
             {
                 case CsvFieldDelimiter.Comma:
                     return ",";
@@ -106,4 +141,37 @@ namespace Frends.Community.SQL.QueryToFile
             }
         }
     }
+
+    public class SaveQueryToCSVParameters
+    {
+        /// <summary>
+        /// Query to execute
+        /// </summary>
+        public string Query { get; set; }
+
+        /// <summary>
+        /// Query parameters
+        /// </summary>
+        public SQLParameter[] QueryParameters { get; set; }
+
+        /// <summary>
+        /// Database connection string
+        /// </summary>
+        [DefaultValue("\"Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;\"")]
+        [PasswordPropertyText]
+        public string ConnectionString { get; set; }
+
+        /// <summary>
+        /// Operation timeout (seconds)
+        /// </summary>
+        [DefaultValue(30)]
+        public int TimeoutSeconds { get; set; }
+
+        /// <summary>
+        /// Output file path
+        /// </summary>
+        [DefaultValue("")]
+        public string OutputFilePath { get; set; }
+    }
+
 }

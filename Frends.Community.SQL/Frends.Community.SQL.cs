@@ -13,10 +13,11 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading;
 using System.Threading.Tasks;
+#pragma warning disable 1591
 
-namespace Frends.Community.SQL.QueryToFile
+namespace Frends.Community.SQL
 {
-    public class QueryToFileTask
+    public static class SQL
     {
         /// <summary>
         /// Saves SQL query results to CSV file.
@@ -54,15 +55,14 @@ namespace Frends.Community.SQL.QueryToFile
             return output;
         }
 
-        internal static CsvWriter CreateCsvWriter(string delimeter, TextWriter writer)
+        public static CsvWriter CreateCsvWriter(string delimeter, TextWriter writer)
         {
-            var csvOptions = new Configuration
-            {
-                Delimiter = delimeter,
-            };
+            var csvOptions = new CsvConfiguration(CultureInfo.InvariantCulture);
+            csvOptions.Delimiter = delimeter;
+                        
             return new CsvWriter(writer, csvOptions);
         }
-        internal static string FormatDbHeader(string header, bool forceSpecialFormatting)
+        public static string FormatDbHeader(string header, bool forceSpecialFormatting)
         {
             if (!forceSpecialFormatting) return header;
 
@@ -80,7 +80,7 @@ namespace Frends.Community.SQL.QueryToFile
         /// <param name="dbTypeName">Type of database column. E.g. for differentiating between DATE and DATETIME types</param>
         /// <param name="options">Formatting options</param>
         /// <returns></returns>
-        internal static string FormatDbValue(object value, string dbTypeName, Type dotnetType, SaveQueryToCSVOptions options)
+        public static string FormatDbValue(object value, string dbTypeName, Type dotnetType, SaveQueryToCSVOptions options)
         {
             if (value == null || value == DBNull.Value)
             {
@@ -105,7 +105,7 @@ namespace Frends.Community.SQL.QueryToFile
                 var dateTime = (DateTime)value;
                 var dbType = dbTypeName?.ToLower();
                 string output = null;
-                switch(dbType)
+                switch (dbType)
                 {
                     case "date":
                         output = dateTime.ToString(options.DateFormat, CultureInfo.InvariantCulture);
@@ -119,7 +119,7 @@ namespace Frends.Community.SQL.QueryToFile
                 if (options.AddQuotesToDates) return $"\"{output}\"";
                 return output;
             }
-            
+
             if (dotnetType == typeof(float))
             {
                 var floatValue = (float)value;
@@ -141,7 +141,7 @@ namespace Frends.Community.SQL.QueryToFile
             return value.ToString();
         }
 
-        internal static int DataReaderToCsv(
+        public static int DataReaderToCsv(
             DbDataReader reader,
             CsvWriter csvWriter,
             SaveQueryToCSVOptions options,
@@ -152,7 +152,7 @@ namespace Frends.Community.SQL.QueryToFile
             for (var i = 0; i < reader.FieldCount; i++)
             {
                 var columnName = reader.GetName(i);
-                var includeColumn = 
+                var includeColumn =
                     options.ColumnsToInclude == null ||
                     options.ColumnsToInclude.Length == 0 ||
                     options.ColumnsToInclude.Contains(columnName);
