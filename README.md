@@ -21,17 +21,7 @@ https://www.myget.org/F/frends-community/api/v3/index.json and in Gallery view i
 
 ## SQL
 
-### Parameters
-
-| Property             | Type                 | Description                          | Example |
-| ---------------------| ---------------------| ------------------------------------ | ----- |
-| Query | string | SQL query to execute | `SELECT id FROM foo` |
-| ConnectionString | string | Database connection string | `Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword` |
-| TimeoutSeconds | int | Timeout in seconds | 30 |
-| OutputFilePath | string | CSV file path for output | `C:\output\path.csv` |
-| QueryParameters | SQLParameter[] | Query parameters | `[ { "@Param1", "Value1" }, { "@Param2", "Value2" }]`
-
-### Options
+### Input
 
 Settings for included attachments
 
@@ -48,12 +38,12 @@ Settings for included attachments
 | DateFormat | string | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd` |
 | DateTimeFormat | string | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd HH:mm:ss` |
 
-### Notes
-Newlines in text fields are replaced with spaces.
 
 ### Returns
 
-Result contains the amount of lines written to output CSV.
+| Property      | Type     | Description                      | Example                     |
+|---------------|----------|----------------------------------|-----------------------------|
+| Result | string | Result path of the created file |  |
 
 # License
 
@@ -89,8 +79,6 @@ When contributing to this repository, please first discuss the change you wish t
 5. Submit a Pull request so that we can review your changes
 
 NOTE: Be sure to merge the latest from "upstream" before making a pull request!
-
-# Change Log
 
 # Change Log
 
