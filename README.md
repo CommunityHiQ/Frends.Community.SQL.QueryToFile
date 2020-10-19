@@ -23,30 +23,30 @@ https://www.myget.org/F/frends-community/api/v3/index.json and in Gallery view i
 
 ### Parameters
 
-| Property             | Type                 | Description                          | Example                                                                             |
-| ---------------------| ---------------------| ------------------------------------ | ----------------------------------------------------------------------------------- |
-| Query                | string               | SQL query to execute                 | `SELECT id FROM foo`                                                                |
-| ConnectionString     | string               | Database connection string           | `Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword` |
-| TimeoutSeconds       | int                  | Timeout in seconds                   | 30                                                                                  |
-| OutputFilePath       | string               | CSV file path for output             | `C:\output\path.csv`                                                                |
-| QueryParameters      | SQLParameter[]       | Query parameters                     | `[ { "@Param1", "Value1" }, { "@Param2", "Value2" }]`                               |
+| Property             | Type                 | Description                          | Example |
+| ---------------------| ---------------------| ------------------------------------ | ----- |
+| Query | string | SQL query to execute | `SELECT id FROM foo` |
+| ConnectionString | string | Database connection string | `Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword` |
+| TimeoutSeconds | int | Timeout in seconds | 30 |
+| OutputFilePath | string | CSV file path for output | `C:\output\path.csv` |
+| QueryParameters | SQLParameter[] | Query parameters | `[ { "@Param1", "Value1" }, { "@Param2", "Value2" }]`
 
 ### Options
 
 Settings for included attachments
 
-| Property               | Type                            | Description                                                                                                                                                                                                        | Example              |                                                                                                                                                        |
-| ---------------------- | ------------------------------- |------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------- |
-| ColumnsToInclude       | string[]                        | Columns to include in the output CSV. If no columns defined here then all columns will be written to output CSV.                                                                                                   | `[id, name, value]`  |
-| FieldDelimiter         | enum { Comma, Semicolon, Pipe } | Field delimeter to use in output CSV                                                                                                                                                                               | Comma                |
-| LineBreak              | enum { CR, LF, CRLF }           | Line break style to use in output CSV.                                                                                                                                                                             | CRLF                 |
-| FileEncoding           | enum                            | Encoding for the read content. By selecting 'Other' you can use any encoding.                                                                                                                                      |                      |
-| EncodingInString       | string                          | The name of encoding to use. Required if the FileEncoding choice is 'Other'. A partial list of supported encoding names: https://msdn.microsoft.com/en-us/library/system.text.encoding.getencodings(v=vs.110).aspx | `iso-8859-1`         |
-| IncludeHeadersInOutput | bool                            | Wherther to include headers in output CSV.                                                                                                                                                                         | `true`               |
-| SanitizeColumnHeaders  | bool                            | Whether to sanitize headers in output: (1) Strip any chars that are not 0-9, a-z or _ (2) Make sure that column does not start with a number or underscore (3) Force lower case                                    | `true`               |
-| AddQuotesToDates       | bool                            | Whether to add quotes around DATE and DATETIME fields                                                                                                                                                              | `true`               |
-| DateFormat             | string                          | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture.                                                                                  | `yyyy-MM-dd`         |
-| DateTimeFormat         | string                          | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture.                                                                              | `yyyy-MM-dd HH:mm:ss`|
+| Property             | Type                 | Description                          | Example |
+| ---------------------| ---------------------| ------------------------------------ | ----- |
+| ColumnsToInclude | string[] | Columns to include in the output CSV. If no columns defined here then all columns will be written to output CSV. | `[id, name, value]` |
+| FieldDelimiter | enum { Comma, Semicolon, Pipe } | Field delimeter to use in output CSV | Comma |
+| LineBreak | enum { CR, LF, CRLF } | Line break style to use in output CSV. | CRLF |
+| FileEncoding | enum | Encoding for the read content. By selecting 'Other' you can use any encoding. |
+| EncodingInString | string | The name of encoding to use. Required if the FileEncoding choice is 'Other'. A partial list of supported encoding names: https://msdn.microsoft.com/en-us/library/system.text.encoding.getencodings(v=vs.110).aspx | `iso-8859-1` |
+| IncludeHeadersInOutput | bool | Wherther to include headers in output CSV. | `true` |
+| SanitizeColumnHeaders | bool | Whether to sanitize headers in output: (1) Strip any chars that are not 0-9, a-z or _ (2) Make sure that column does not start with a number or underscore (3) Force lower case | `true` |
+| AddQuotesToDates | bool | Whether to add quotes around DATE and DATETIME fields | `true` |
+| DateFormat | string | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd` |
+| DateTimeFormat | string | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd HH:mm:ss` |
 
 ### Notes
 Newlines in text fields are replaced with spaces.
@@ -92,6 +92,10 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 
 # Change Log
 
-| Version | Changes                                                                                                   |
-| ------- | --------------------------------------------------------------------------------------------------------- |
-| 1.0.0   | Renaming Task: SQL.QueryToFIle --> SQL. Converted to support .Net Standard & .Net Framework (4.7.1)       |
+# Change Log
+
+| Version             | Changes                 |
+| ---------------------| ---------------------|
+| 1.0.0 | Initial version of SaveQueryToCSV task |
+| 1.1.0 | Added options for destination file encoding. |
+| 1.1.1 | Converted to support .Net Framework 4.7.1 and .Net Standard 2.0 |
