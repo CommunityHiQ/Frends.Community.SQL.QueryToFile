@@ -6,7 +6,7 @@ FRENDS Community Task for SQL query results to CSV-file
 
 - [Installing](#installing)
 - [Tasks](#tasks)
-     - [SQL](#SQL)
+     - [SaveQueryToCSV](#SaveQueryToCSV)
 - [License](#license)
 - [Building](#building)
 - [Contributing](#contributing)
@@ -19,9 +19,19 @@ https://www.myget.org/F/frends-community/api/v3/index.json and in Gallery view i
 
 # Tasks
 
-## SQL
+## SaveQueryToCSV
 
-### Input
+### Parameters
+
+| Property             | Type                 | Description                          | Example |
+| ---------------------| ---------------------| ------------------------------------ | ----- |
+| Query | string | SQL query to execute | `SELECT id FROM foo` |
+| ConnectionString | string | Database connection string | `Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword` |
+| TimeoutSeconds | int | Timeout in seconds | 30 |
+| OutputFilePath | string | CSV file path for output | `C:\output\path.csv` |
+| QueryParameters | SQLParameter[] | Query parameters | `[ { "@Param1", "Value1" }, { "@Param2", "Value2" }]`
+
+### Options
 
 Settings for included attachments
 
@@ -38,12 +48,12 @@ Settings for included attachments
 | DateFormat | string | Date format to use for formatting DATE columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd` |
 | DateTimeFormat | string | Date format to use for formatting DATETIME columns, use .NET formatting tokens. Note that formatting is done using invariant culture. | `yyyy-MM-dd HH:mm:ss` |
 
+### Notes
+Newlines in text fields are replaced with spaces.
 
 ### Returns
 
-| Property      | Type     | Description                      | Example                     |
-|---------------|----------|----------------------------------|-----------------------------|
-| Result | string | Result path of the created file |  |
+Result contains the amount of lines written to output CSV.
 
 # License
 
@@ -86,4 +96,4 @@ NOTE: Be sure to merge the latest from "upstream" before making a pull request!
 | ---------------------| ---------------------|
 | 1.0.0 | Initial version of SaveQueryToCSV task |
 | 1.1.0 | Added options for destination file encoding. |
-| 1.1.1 | Converted to support .Net Framework 4.7.1 and .Net Standard 2.0 |
+| 1.1.1 | Converted to support .Net Framework 4.7.1 and .Net Standard 2.0. Renamed task. |
