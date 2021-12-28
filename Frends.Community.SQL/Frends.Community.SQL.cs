@@ -28,7 +28,7 @@ namespace Frends.Community.SQL
         /// <returns>Returns amount of entries written</returns>
         public async static Task<int> SaveQueryToCSV([PropertyTab] SaveQueryToCSVParameters parameters, [PropertyTab] SaveQueryToCSVOptions options, CancellationToken cancellationToken)
         {
-            int output = 0;
+            var output = 0;
             var encoding = GetEncoding(options.FileEncoding, options.EnableBom, options.EncodingInString);
 
             using (var writer = new StreamWriter(parameters.OutputFilePath, false, encoding))
@@ -57,27 +57,30 @@ namespace Frends.Community.SQL
 
         public static CsvWriter CreateCsvWriter(string delimeter, TextWriter writer)
         {
-            var csvOptions = new CsvConfiguration(CultureInfo.InvariantCulture);
-            csvOptions.Delimiter = delimeter;
-                        
+            var csvOptions = new CsvConfiguration(CultureInfo.InvariantCulture)
+            {
+                Delimiter = delimeter
+            };
+
             return new CsvWriter(writer, csvOptions);
         }
         public static string FormatDbHeader(string header, bool forceSpecialFormatting)
         {
             if (!forceSpecialFormatting) return header;
 
-            // First part of regex removes all non-alphanumeric ('_' also allowed) chars from the whole string
-            // Second part removed any leading numbers or underscoress
-            Regex rgx = new Regex("[^a-zA-Z0-9_-]|^[0-9_]+");
+            // First part of regex removes all non-alphanumeric ('_' also allowed) chars from the whole string.
+            // Second part removed any leading numbers or underscoress.
+            var rgx = new Regex("[^a-zA-Z0-9_-]|^[0-9_]+");
             header = rgx.Replace(header, "");
             return header.ToLower();
         }
 
         /// <summary>
-        /// Formats a value according to options
+        /// Formats a value according to options.
         /// </summary>
         /// <param name="value">Value from the database</param>
         /// <param name="dbTypeName">Type of database column. E.g. for differentiating between DATE and DATETIME types</param>
+        /// <param name="dotnetType"></param>
         /// <param name="options">Formatting options</param>
         /// <returns></returns>
         public static string FormatDbValue(object value, string dbTypeName, Type dotnetType, SaveQueryToCSVOptions options)
@@ -92,7 +95,7 @@ namespace Frends.Community.SQL
             if (dotnetType == typeof(string))
             {
                 var str = (string)value;
-                var delimiter = options.GetFieldDelimeterAsString();
+                options.GetFieldDelimeterAsString();
                 str = str.Replace("\"", "\\\"");
                 str = str.Replace("\r\n", " ");
                 str = str.Replace("\r", " ");
@@ -104,7 +107,7 @@ namespace Frends.Community.SQL
             {
                 var dateTime = (DateTime)value;
                 var dbType = dbTypeName?.ToLower();
-                string output = null;
+                string output;
                 switch (dbType)
                 {
                     case "date":
@@ -147,7 +150,7 @@ namespace Frends.Community.SQL
             SaveQueryToCSVOptions options,
             CancellationToken cancellationToken)
         {
-            // Write header and remember column indexes to include
+            // Write header and remember column indexes to include.
             var columnIndexesToInclude = new List<int>();
             for (var i = 0; i < reader.FieldCount; i++)
             {
@@ -166,6 +169,7 @@ namespace Frends.Community.SQL
                     }
                     columnIndexesToInclude.Add(i);
                 }
+                cancellationToken.ThrowIfCancellationRequested();
             }
 
             if (options.IncludeHeadersInOutput) csvWriter.NextRecord();
@@ -180,6 +184,7 @@ namespace Frends.Community.SQL
                     var dotnetType = reader.GetFieldType(columnIndex);
                     var formattedValue = FormatDbValue(value, dbTypeName, dotnetType, options);
                     csvWriter.WriteField(formattedValue, false);
+                    cancellationToken.ThrowIfCancellationRequested();
                 }
                 csvWriter.NextRecord();
                 count++;
@@ -190,12 +195,12 @@ namespace Frends.Community.SQL
 
         private static SqlCommand BuildSQLCommand(string query, SQLParameter[] parmeters)
         {
-            using (SqlCommand command = new SqlCommand())
+            using (var command = new SqlCommand())
             {
                 command.CommandText = query;
                 command.CommandType = CommandType.Text;
 
-                foreach (SQLParameter parameter in parmeters)
+                foreach (var parameter in parmeters)
                 {
                     command.Parameters.AddWithValue(parameter.Name, parameter.Value);
                 }

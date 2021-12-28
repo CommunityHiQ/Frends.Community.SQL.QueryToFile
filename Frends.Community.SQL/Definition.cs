@@ -9,7 +9,7 @@ namespace Frends.Community.SQL
     public enum FileEncoding { UTF8, ANSI, ASCII, Unicode, Other }
        
     /// <summary>
-    /// CSV line break options
+    /// CSV line break options.
     /// </summary>
     public enum CsvLineBreak
     {
@@ -19,7 +19,7 @@ namespace Frends.Community.SQL
     }
 
     /// <summary>
-    /// CSV field delimeter options
+    /// CSV field delimeter options.
     /// </summary>
     public enum CsvFieldDelimiter
     {
@@ -31,12 +31,12 @@ namespace Frends.Community.SQL
     public class SQLParameter
     {
         /// <summary>
-        /// Parameter name
+        /// Parameter name.
         /// </summary>
         public string Name { get; set; }
 
         /// <summary>
-        /// Parameter value
+        /// Parameter value.
         /// </summary>
         public string Value { get; set; }
     }
@@ -51,19 +51,19 @@ namespace Frends.Community.SQL
         public string[] ColumnsToInclude { get; set; }
 
         /// <summary>
-        /// What to use as field separators
+        /// What to use as field separators.
         /// </summary>
         [DefaultValue(CsvFieldDelimiter.Semicolon)]
         public CsvFieldDelimiter FieldDelimiter { get; set; } = CsvFieldDelimiter.Semicolon;
 
         /// <summary>
-        /// What to use as line breaks
+        /// What to use as line breaks.
         /// </summary>
         [DefaultValue(CsvLineBreak.CRLF)]
         public CsvLineBreak LineBreak { get; set; } = CsvLineBreak.CRLF;
 
         /// <summary>
-        /// Output file encoding
+        /// Output file encoding.
         /// </summary>
         [DefaultValue(FileEncoding.UTF8)]
         public FileEncoding FileEncoding { get; set; }
@@ -78,7 +78,7 @@ namespace Frends.Community.SQL
         public string EncodingInString { get; set; }
 
         /// <summary>
-        /// Whether to include headers in output
+        /// Whether to include headers in output.
         /// </summary>
         [DefaultValue(true)]
         public bool IncludeHeadersInOutput { get; set; } = true;
@@ -86,14 +86,14 @@ namespace Frends.Community.SQL
         /// <summary>
         /// Whether to sanitize headers in output:
         /// - Strip any chars that are not 0-9, a-z or _
-        /// - Make sure that column does not start with a number or underscore
-        /// - Force lower case
+        /// - Make sure that column does not start with a number or underscore.
+        /// - Force lower case.
         /// </summary>
         [DefaultValue(true)]
         public bool SanitizeColumnHeaders { get; set; } = true;
 
         /// <summary>
-        /// Whether to add quotes around DATE and DATETIME fields
+        /// Whether to add quotes around DATE and DATETIME fields.
         /// </summary>
         [DefaultValue(true)]
         public bool AddQuotesToDates { get; set; } = true;
@@ -145,30 +145,30 @@ namespace Frends.Community.SQL
     public class SaveQueryToCSVParameters
     {
         /// <summary>
-        /// Query to execute
+        /// Query to execute.
         /// </summary>
         public string Query { get; set; }
 
         /// <summary>
-        /// Query parameters
+        /// Query parameters.
         /// </summary>
         public SQLParameter[] QueryParameters { get; set; }
 
         /// <summary>
-        /// Database connection string
+        /// Database connection string.
         /// </summary>
         [DefaultValue("\"Server=myServerAddress;Database=myDataBase;User Id=myUsername;Password=myPassword;\"")]
         [PasswordPropertyText]
         public string ConnectionString { get; set; }
 
         /// <summary>
-        /// Operation timeout (seconds)
+        /// Operation timeout (seconds).
         /// </summary>
         [DefaultValue(30)]
         public int TimeoutSeconds { get; set; }
 
         /// <summary>
-        /// Output file path
+        /// Output file path.
         /// </summary>
         [DefaultValue("")]
         public string OutputFilePath { get; set; }
