@@ -1,3 +1,5 @@
+This repository has been archived and the task has been moved to https://github.com/CommunityHiQ/Frends.Community.SQL.
+
 # Frends.Community.SQL.QueryToFile
 Frends task for writing SQL query results to CSV file.
 
